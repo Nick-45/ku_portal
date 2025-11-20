@@ -1,0 +1,848 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head id="_ctl0_Head1"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><title>
+
+</title>
+    <script type="text/javascript" src="../../../scripts/jquery.js"></script>
+    <style>
+        .tdnowrap {
+            white-space: nowrap;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+
+            $("#_ctl0_PlaceHolderMain_pnlRgCourses").height("auto");
+
+        });
+
+        function OpenRegAsst() {
+            var winstyle;
+            var winpercent = .60;
+            var page = "RegAssistant.aspx";
+            if (window.showModalDialog) {
+                winstyle = "dialogWidth: " + Math.round(winpercent * screen.availWidth) + "px; dialogHeight: " + Math.round(.50 * screen.availHeight) + "px; center: yes; help: no; status: no; resizable: yes; maximize: yes";
+                showModalDialog(page, null, winstyle);
+            }
+            else {
+                winstyle = "width=" + Math.round(winpercent * screen.availWidth) + ",height=" + Math.round(.50 * screen.availHeight) + ",screenX=" + Math.round((.05 * screen.availWidth) / 2) + ",screenY=" + Math.round((.05 * screen.availHeight) / 2) + ",menubar=no,status=no,toolbar=no,resizable=yes";
+                window.open(page, "Online Registration", winstyle);
+            }
+        }
+
+        function trackRegistration() {
+            var winstyle;
+            var page = "OnlineRegTrack1.aspx";
+
+            if (window.showModalDialog) {
+                winstyle = "dialogWidth: " + Math.round(.75 * screen.availWidth) + "px; dialogHeight: " + Math.round(.75 * screen.availHeight) + "px; center: yes; help: no; status: no; resizable: yes; maximize: yes";
+                retval = showModalDialog(page, null, winstyle);
+            }
+            else {
+                winstyle = "width=" + Math.round(.75 * screen.availWidth) + ",height=" + Math.round(.75 * screen.availHeight) + ",screenX=" + Math.round((.05 * screen.availWidth) / 2) + ",screenY=" + Math.round((.05 * screen.availHeight) / 2) + ",menubar=no,status=no,toolbar=no,resizable=yes";
+                retval = window.open(page, "Track Registration", winstyle);
+            }
+        }
+
+        function doRegistration(bCustom) {
+            var winstyle;
+            var retval;
+            var page = "OnlineRegWrap.aspx";
+
+            if (bCustom) {
+                page = "Custom/CustomRegStep1Wrap.aspx";
+            }
+
+            if (window.showModalDialog) {
+                winstyle = "dialogWidth: " + Math.round(.95 * screen.availWidth) + "px; dialogHeight: " + Math.round(.90 * screen.availHeight) + "px; center: yes; help: no; status: no; resizable: yes; maximize: yes";
+                retval = showModalDialog(page, null, winstyle);
+            }
+            else {
+                winstyle = "width=" + Math.round(.95 * screen.availWidth) + ",height=" + Math.round(.95 * screen.availHeight) + ",screenX=" + Math.round((.05 * screen.availWidth) / 2) + ",screenY=" + Math.round((.05 * screen.availHeight) / 2) + ",menubar=no,status=no,toolbar=no,resizable=yes";
+                retval = window.open(page, "Online Registration", winstyle);
+            }
+
+            /*
+            CQ28856 A.S. 09-30-05
+            re-navigate to payment page
+            */
+            if (retval != null && retval === "paynow") {
+                window.location = '../Fin/StudentPayment.aspx';
+            }
+
+            return false;
+        }
+
+
+        /*
+        CQ22539 A.S. 07-07-05
+        Display course schedule calendar to user.
+        Arguments received when user clicks "Click for details" link.
+        */
+        function showSchedule(adClassSchedId, startDate, endDate) {
+            //keep track since link was clicked
+            var elem = document.getElementById("_ctl0_PlaceHolderMain_inpShowSched");
+            if (elem != null) { elem.value = "1"; }
+
+            //store parameter values
+            elem = document.getElementById("_ctl0_PlaceHolderMain_inpAdClassSchedId");
+            if (elem != null) { elem.value = adClassSchedId; }
+
+            elem = document.getElementById("_ctl0_PlaceHolderMain_inpStartDate");
+            if (elem != null) { elem.value = startDate; }
+
+            elem = document.getElementById("_ctl0_PlaceHolderMain_inpEndDate");
+            if (elem != null) { elem.value = endDate; }
+            //pass parameters by querystring
+            //alert("hello" + adClassSchedId + startDate + endDate);
+            document.getElementById("ifraCal").setAttribute("visible", "true");
+            var url = "CourseSchedCalendars.aspx?" + "adclassschedid=" + adClassSchedId + "&startdate=" + startDate + "&enddate=" + endDate
+            //    window.open(url);
+            document.getElementById("ifraCal").setAttribute("src", url);
+
+            return false;
+        }
+
+        function setSchedSize() {
+            var h = window.parent.frames["ifraCal"].document.body.scrollHeight;
+
+            if (navigator.appName !== "Microsoft Internet Explorer") {
+                h = h - 11;
+            }
+            if (h > 0) {
+                document.getElementById("ifraCal").height = h;
+
+            }
+            var sh = screen.height;
+
+            document.getElementById("ifraCal").top = (sh - h) / 4;
+        }
+
+        function showTermSequence() {
+            var winstyle = "width=" + Math.round(.50 * screen.availWidth) + ",height=" + Math.round(.50 * screen.availHeight) + ",screenX=" + Math.round((.05 * screen.availWidth) / 2) + ",screenY=" + Math.round((.05 * screen.availHeight) / 2) + ",menubar=no,status=no,toolbar=no";
+            window.open("TermSequence.aspx", "Terms", winstyle);
+
+        }
+
+
+    </script>
+<link href="../../../font-awesome/css/font-awesome.min.css" rel="stylesheet" /><link href="../../../Public/global/css/jquery.dataTables.css" rel="stylesheet" /><link href="../Prof/css/datepicker.min.css" rel="stylesheet" /><link href="../Prof/css/datepicker3.min.css" rel="stylesheet" /><link href="../../../Public/global/css/chosen.min.css" rel="stylesheet" /><link href="/Public/global/css/bootstrap.css" rel="stylesheet" type="text/css" /><link href="/Public/global/css/Main.css" rel="stylesheet" type="text/css" /><link href="/Public/global/css/Main_top.css" rel="stylesheet" type="text/css" /><link href="/Public/global/css/Arabic_top.css" rel="stylesheet" type="text/css" /><link href="/Public/global/images/cm_ico.ico" rel="icon" type="image/x-icon" /><link href="/Public/global/images/cm_ico.ico" rel="shortcut icon" type="image/x-icon" />
+
+</head>
+<body id="secure-student-reg-onlineregstep1">
+    <div id="_ctl0_menutype">
+        <div id="wrapper">
+            <form name="aspnetForm" method="post" action="./OnlineRegStep1.aspx?sm=3" id="aspnetForm">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="h_oSM" id="h_oSM" value="" />
+<input type="hidden" name="h_oSMscroll" id="h_oSMscroll" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+
+<script type="text/javascript">
+<!--
+var theForm = document.forms['aspnetForm'];
+if (!theForm) {
+    theForm = document.aspnetForm;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+// -->
+</script>
+
+
+<script src="/WebResource.axd?d=pynGkmcFUV13He1Qd6_TZItUc7uOXVQ_JJSF3nqWHTssVf86I8T6DdUK_rt6gpBWQGLL6g2&amp;t=638901644248157332" type="text/javascript"></script>
+
+
+<script src="/WebResource.axd?d=N7YmIXG2RsXemlFJBn1LPgxH6cbsa2vyoYggBjbksp1FFoDoWZMOproM-f1fEjzAFXwh5XUejPif6Y6KlijjOe7W-nmnhRCqNLI7HN-lWkKE_6gib174Y_ajGl_UVKCY81dsSw2&amp;t=638181394580000000" type="text/javascript"></script>
+<script src="/WebResource.axd?d=V-BuC5nd3YJ1sKCGjlgAfOC8zGH8LvP49fSSpEJapzXB5xJSjKYi4YwGLt3_G9DZmr9B3Tfic2-AG4XVRdXGN83RSwZhkQFo4nwHJEaNAvjjlBwHdJODSOGnwxCdsSd_tIpfGQ2&amp;t=638181394580000000" type="text/javascript"></script><link href="/WebResource.axd?d=d0dBkhjLs5yB01KIq4ulu6J9NYT9IvxO-wg7k4uWqvEH67yESMNXeWpw9qz2Yf0IB2kwtPvB30vgGOLy6mGCqNnK-04MIqAUVmlynhAegiLWBaUo0&t=638181394580000000" type="text/css" rel="stylesheet"></link><!--[if lt IE 7]><link href="/WebResource.axd?d=z-M87YFCczMlGR9xHfYTUMz3k6tbiEyDyNL5jcDSPebdAlIagH4JtiA1bdZz0ojlv5aY0R5UR6jdF1NWOrbyEIMqMT35fwJc4ccnwI5cfzb5x9QnWeyXivsguZAX2Fl1LXATAQ2&t=638181394580000000" type="text/css" rel="stylesheet"></link><![endif]-->
+<script src="/scripts/jquery.min.js" type="text/javascript"></script>
+<script src="/scripts/jquery.dataTables.js" type="text/javascript"></script>
+<script src="/scripts/jquery.dataTables.columnFilter.js" type="text/javascript"></script>
+<script src="/scripts/cnsiPortal.js" type="text/javascript"></script>
+<script src="/scripts/chosen.jquery.min.js" type="text/javascript"></script>
+<script src="/scripts/globalize.js" type="text/javascript"></script>
+<script src="/scripts/cultures/globalize.culture.en-US.js" type="text/javascript"></script>
+<script src="/scripts/cmcportal.js" type="text/javascript"></script>
+<script src="/scripts/bootstrap.min.js" type="text/javascript"></script>
+<script src="/scripts/bootstrap-datepicker.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+<!--
+var sisID =424345;// -->
+</script>
+
+
+ <script src= "/scripts/OnlineReg.js" type="text/javascript"></script>
+<script type="text/javascript">
+<!--
+var lvBaseURL = ''; // -->
+</script>
+
+<script src="/ScriptResource.axd?d=NJmAwtEo3Ipnlaxl6CMhvtYoe23KWPIASa44k8ym27_-haxnGler1RlKYqbcNU1ZwMx6gK2R_GKaW2BsrdZHFwGd1c6C3jEuls3NpcKdZXAjFe4FcsU1509DnUHDT25Quc1hYMrSI2Uv1MXeXOQKptotUkc1&amp;t=5c0e0825" type="text/javascript"></script>
+                
+
+                <div id="divSkiplink" class="hiddenLink"><a href="#mainContent">Skip to Main Content</a> </div>
+                <div id="stuLayout">
+
+                    <div id="_ctl0_cmcPageLayout">
+                        <div id="header">
+                            <div id="_ctl0_tdHeader">
+                                
+<link href="/scripts/Logout/jquery-ui.min.css" rel="stylesheet" />
+
+<script src="/scripts/jquery-ui.js"></script>
+<script src="/scripts/store.min.js"></script>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function () {
+        var userid = "286996";
+
+        if (userid.length === 0) {
+            return;
+        }
+        if (userid === "0") {
+            return;
+        }
+    });
+
+    function showmodal() {
+        setTimeout(show, 500);
+    }
+    function show() {
+        $('#divIE').modal('show');
+        document.getElementById('divIE').style.visibility = "visible";
+    }
+    function CloseWindow() {
+        window.open('', '_self', '');
+        window.close();
+    }
+</script>
+<nav class="navbar navbar-default HeaderMenuForPosition">
+
+    <!-- <div class="top-bar">-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-5 col-xs-12">
+                <div class="row">
+                    <div class="col-xs-9">
+                        <img id="_ctl0_Header1_CMCImage1" class=" navbar-brand1 img-responsive" src="/Public/global/images/logo.png" alt="Image of Logo" border="0" />
+                    </div>
+                    <div class="col-xs-3">
+                        <div class="navbar-header" id="menu_btn">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-7 col-xs-12">
+                <div class="social">
+                    <ul class="social-share">
+                        
+                        <li id="lang_change">
+                            
+                        </li>
+                        <li>
+                            <div id="Show_quick_links" class="navbar-text">
+                                
+                                <a id="_ctl0_Header1_quickLinks" onclick="if (typeof(Page_ClientValidate) == &#39;function&#39;) Page_ClientValidate(); " title="Quick Links">
+                                    <i class="fa fa-link fa-lg" style="color: white"></i>
+                                </a>
+                                <input type="hidden" name="_ctl0:Header1:hfShowLinkText" id="_ctl0_Header1_hfShowLinkText" value="Show Quick Links..." />
+                                <input type="hidden" name="_ctl0:Header1:hfHideLinkText" id="_ctl0_Header1_hfHideLinkText" value="Hide Quick Link..." />
+                            </div>
+                        </li>
+                        
+                        
+
+                        
+                        <li>
+                            <a href="javascript://" id="_ctl0_Header1_lnkHelp" onclick="javascript:window.open(&#39;https://help.campusmanagement.com/CNSi/PRT/5.1/Student/&#39;)">
+                                <i class="fa fa-question fa-lg" style="color: white"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <div class="btn-group">
+                                <a id="_ctl0_Header1_userName" data-toggle="dropdown" style="cursor: pointer" onclick="if (typeof(Page_ClientValidate) == &#39;function&#39;) Page_ClientValidate(); " title=" JAMES OBARE">
+                                    <i class="fa fa-user fa-lg" style="color: white"></i>
+                                </a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li style="padding: 0px">
+                                        
+                                    </li>
+                                    <li style="padding: 0px">
+                                        <a id="_ctl0_Header1_btnLogout" href="javascript:__doPostBack(&#39;_ctl0$Header1$btnLogout&#39;,&#39;&#39;)" style="padding: 0px; color: white !important; background-color: #1F67A6 !important;">Logout</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <!-- CQ 27016 Steve Donaldson - the browserdetect control must be available for all types of users.
+                       Removed from the below panel control -->
+        
+    </div>
+    <div class="container-fluid " id="quick_links" style="display: none;">
+        <div class="row">
+            <div class="col-lg-12 zeropad">
+                <div id="_ctl0_Header1_tblQuickLinks" class="QuickLinks_social">
+                    <ul id="_ctl0_Header1_ulQuickLinks" class="QuickLinks_social-share"><li><a href="/secure/links/Bursary1.aspx" class="navbar-text">Bursary Application</a></li><li><a href="/secure/links/SubmitTicket.aspx" class="navbar-text">Submit Ticket</a></li><li><a href="/secure/links/SubmitTicket1.aspx" class="navbar-text">View Ticket</a></li><li><a href="/secure/links/Knowledge.aspx" class="navbar-text">Knowledge Base</a></li></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid" id="header_no_print">
+    <div class="row" style="display: flex;">
+        <div class="col-sm-3">
+            <div>
+                
+                <div id="_ctl0_Header1_horizontalMenu" class="dropdown menuClass" style="display: none">
+                    <a href="../../../Controls/#" id="_ctl0_Header1_dLabel" role="button" data-toggle="dropdown" class="btn btn-primary navbar-text" data-target="#" onclick="if (typeof(Page_ClientValidate) == &#39;function&#39;) Page_ClientValidate(); ">Menu</a>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-9">
+            <div class="row headerBar">
+                <div class="col-sm-2 col-xs-12">
+                    <a id="_ctl0_Header1_lnkHomePage" href="/secure/student/StuPortal.aspx">My Home Page</a>
+                </div>
+                <div class="col-sm-10 col-xs-12">
+                    <div id="_ctl0_Header1_StuHeader">
+	
+                        <!-- Alert Tray Code Starts Here -->
+                        <div id="_ctl0_Header1_divMessageTray">
+                            <div class="col-sm-7 col-xs-12">
+                                <div id="cmcStudentMsgTray">
+                                    <ul>
+                                        <li id="cmcTrayHolds">
+                                            <a id="_ctl0_Header1_hlHoldTray" href="/secure/student/Prof/msg_Home.aspx?tab=1">
+                                                <em>
+                                                    1</em>
+                                                <span id="_ctl0_Header1_lblHolds">Holds</span></a>
+
+                                        </li>
+                                        <li id="cmcTrayAlerts">
+                                            <a id="_ctl0_Header1_hlAlertTray" href="/secure/student/Prof/msg_Home.aspx?tab=1">
+                                                <em>
+                                                    0</em>
+                                                <span id="_ctl0_Header1_lblAlerts">Alerts</span></a>
+
+                                        </li>
+                                        <li id="cmcTrayAppts">
+                                            <a id="_ctl0_Header1_hlApptTray" href="/secure/student/Prof/msg_Home.aspx?tab=2">
+                                                <em>
+                                                    0</em>
+                                                <span id="_ctl0_Header1_lblAppointments">Appointments</span></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-sm-5 col-xs-12">
+                                <div class="cmcDate">
+                                    <span id="_ctl0_Header1_lblStuDate">Thursday, November 20, 2025</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Alert Tray Code Ends Here -->
+
+                        
+                    
+</div>
+                </div>
+
+                <div class="col-sm-10 col-xs-12 recent_student">
+                    
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div id="divIE" class="modal fade " data-backdrop="static" data-keyboard="false" role="dialog" style="visibility: visible;">
+                     <div class="modal-dialog" id="modalIE" style="height: 80%" role="dialog">
+                        <div class="modal-content" style="border-width:0px !important;">
+                          
+                            <div class="modal-body">
+                                <img src="../../../Public/global/images/Browser-Not-Supported-3a-01.svg" id="_ctl0_Header1_imgIEPrev" title="To get the best experience while using our application,you will need to use Microsoft Edge or Google Chrome latest versions. Outdated browsers can expose your computer to a security risk." alt="To get the best experience while using our application,
+you will need to use Microsoft Edge or Google Chrome latest versions.
+
+Outdated browsers can expose your computer to a security risk." />
+                                <div style="padding: 15px 15px 3px; text-align: right; margin-bottom: 20px">
+									
+                                    
+                                    <button type="button" onclick="CloseWindow()" class="btn btn-secondary" style="padding: 4px 14px; border: 0px currentColor; border-image: none; color: white; font-size: 14px; text-decoration: none !important; background-color: rgb(109, 109, 109);border-radius:0px;font-family:Verdana, sans-serif" >Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<div id="_ctl0_Header1_divSkiplinkLeft" class="hiddenLink"><a href="#mainContent">Skip Navigation</a> </div>
+<script type="text/javascript">
+    var noAlertLabel = 'You currently have no alerts on record.';
+    var noHoldLabel = 'You currently have no holds on record.';
+    var noApptLabel = 'You currently have no appointments scheduled.';
+    var closeLabel = 'Close';
+    var viewAllAlertsLabel = 'View all alerts';
+    var viewAllHoldsLabel = 'View all holds';
+    var viewAllApptsLabel = 'View all appointments';
+    var noServiceLabel = 'Your messages are currently unavailable at this time.';
+    var noMessagesLabel = 'You do not have any new messages at this time.';
+    $(document).ready(function () {
+        $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+            localStorage.setItem('activeTab', $(e.target).attr('href'));
+        });
+        var activeTab = localStorage.getItem('activeTab');
+        if (activeTab) {
+            $('#myTab a[href="' + activeTab + '"]').tab('show');
+        }
+
+        // Added by fouzia to hide the left content div when horizontal Menu is enabled
+        var status = $('.menuClass').is(':visible');
+        if (status === true) {
+            $('.contentleft').hide();
+            $('#menu_btn').hide();
+
+        }
+
+        if ($('.HideLanguageClass').length !== 0)
+            $('#lang_change').hide();
+
+
+    });
+    $(function () {
+
+        var date = new Date();
+
+        //date.setDate(date.getDate() - 1);
+        var today = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0);
+
+        // Use datetimepicker1 ID if back dates should be disabled and future dates to be accessed
+        $('#datetimepicker1').datepicker({
+            startDate: today,
+            format: 'm/d/yyyy'
+        });
+
+        // Use dobDatePicker class if back dates should be accessed and future dates to be disabled
+        $('.dobDatePicker').datepicker({
+            endDate: today,
+            format: 'm/d/yyyy'
+        });
+
+        // Use datetimepicker class if all months date can be picked
+        $('.datetimepicker').datepicker({
+            format: 'm/d/yyyy'
+        });
+    });
+</script>
+
+                            </div>
+                        </div>
+                        <div>
+                            <div id="tdEmpty"></div>
+                        </div>
+                        <div id="content">
+
+                            <div id="Main" class="container-fluid">
+                                <div class="row">
+                                    <div class="row-height">
+                                        <div id="_ctl0_tdLeft" class="col-sm-2  col-xs-12 col-md-2 navbar-default contentleft col-height col-top   zeropad subnav">
+                                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                                <div id="_ctl0_Menu2_pnlMenu" class="navbar-default">
+	
+    <span id="_ctl0_Menu2_lblMenu" style="width:100%;"></span>
+    <div id="oSM" style="visibility:hidden;"><div id="Campus Info"><a href="" title=""></a><i class='fa fa-th-large'></i> Campus Info</div><div id="__Campus Info"><div id="1"><a href="/secure/Student/Acad/CourseSchedule.aspx?sm=1"><div><span class='navbar-text'>Course Schedule</span></div></a></div><div id="2"><a href="/secure/Student/Camp/FacultyDirectory.aspx?sm=2"><div><span class='navbar-text'>Faculty Directory</span></div></a></div></div><div id="Academics"><a href="" title=""></a><i class='fa fa-th-large'></i> Academics</div><div id="__Academics"><div id="3"><a href="/secure/Student/Reg/OnlineRegStep1.aspx?sm=3"><div><span class='navbar-text'>Registration</span></div></a></div><div id="4"><a href="/secure/Student/Acad/ViewAttendance.aspx?sm=4"><div><span class='navbar-text'>View Attendance</span></div></a></div><div id="5"><a href="/secure/Student/Acad/Transcript.aspx?sm=5"><div><span class='navbar-text'>Unofficial Transcript</span></div></a></div><div id="6"><a href="/secure/Student/Acad/DegreeAudit.aspx?sm=6"><div><span class='navbar-text'>Degree Audit</span></div></a></div><div id="7"><a href="/secure/Student/Acad/ClassSchedule.aspx?sm=7"><div><span class='navbar-text'>My Class Schedule</span></div></a></div><div id="8"><a href="/secure/Student/Acad/MyGrades.aspx?sm=8"><div><span class='navbar-text'>View My Grades</span></div></a></div><div id="9"><a href="/secure/links/Area11.aspx?sm=9"><div><span class='navbar-text'>Area of Study</span></div></a></div></div><div id="Transfer Credits"><a href="" title=""></a><i class='fa fa-th-large'></i> Transfer Credits</div><div id="__Transfer Credits"><div id="10"><a href="/secure/student/apply/TransferCredit_Start.aspx?sm=10"><div><span class='navbar-text'>Transfer Credits</span></div></a></div></div><div id="My Profile"><a href="" title=""></a><i class='fa fa-th-large'></i> My Profile</div><div id="__My Profile"><div id="11"><a href="/secure/Student/Prof/ChangePwd.aspx?sm=11"><div><span class='navbar-text'>Change Password</span></div></a></div><div id="12"><a href="/secure/Student/Prof/msg_Home.aspx?sm=12"><div><span class='navbar-text'>My Message Center</span></div></a></div><div id="13"><a href="/secure/Student/Prof/My_Profile.aspx?sm=13"><div><span class='navbar-text'>My Information</span></div></a></div></div><div id="Message Center"><a href="" title=""></a><i class='fa fa-th-large'></i> Message Center</div><div id="__Message Center"><div id="14"><a href="/secure/Student/Apply/Apply_Msg_Home.aspx?sm=14"><div><span class='navbar-text'>Message Center</span></div></a></div></div><div id="My Finances"><a href="" title=""></a><i class='fa fa-th-large'></i> My Finances</div><div id="__My Finances"><div id="15"><a href="/secure/links/ECitizenPayment.aspx?sm=15"><div><span class='navbar-text'>ECitizenPayment</span></div></a></div><div id="16"><a href="/secure/links/Fee11111111.aspx?sm=16"><div><span class='navbar-text'>Fee Statement</span></div></a></div><div id="17"><a href="/secure/links/Bursary1111111111111.aspx?sm=17"><div><span class='navbar-text'>Bursary Application</span></div></a></div></div><div id="My Classes"><a href="" title=""></a><i class='fa fa-th-large'></i> My Classes</div><div id="__My Classes"><div id="18"><a href="/secure/Student/Acad/ClassSchedule.aspx?sm=18"><div><span class='navbar-text'>Class Schedule</span></div></a></div></div><div id="My Career"><a href="" title=""></a><i class='fa fa-th-large'></i> My Career</div><div id="__My Career"><div id="19"><a href="/secure/Student/Career/JobSearch.aspx?sm=19"><div><span class='navbar-text'>Job Search</span></div></a></div><div id="20"><a href="/secure/Student/Career/SearchAgentDir.aspx?sm=20"><div><span class='navbar-text'>Search Agent</span></div></a></div><div id="21"><a href="/secure/Student/Career/Resume.aspx?sm=21"><div><span class='navbar-text'>My Resume</span></div></a></div><div id="22"><a href="/secure/Student/Career/CareerProfile.aspx?sm=22"><div><span class='navbar-text'>Employment Profile</span></div></a></div></div><div id="My Documents"><a href="" title=""></a><i class='fa fa-th-large'></i> My Documents</div><div id="__My Documents"><div id="23"><a href="/secure/Student/Docs/MyDocuments.aspx?sm=23"><div><span class='navbar-text'>Document Center</span></div></a></div></div><div id="Student Services"><a href="" title=""></a><i class='fa fa-th-large'></i> Student Services</div><div id="__Student Services"><div id="24"><a href="/secure/links/Customer.aspx?sm=24"><div><span class='navbar-text'>Interfaculty Transfer</span></div></a></div><div id="25"><a href="/secure/links/Feedback.aspx?sm=25"><div><span class='navbar-text'>Course Evaluation</span></div></a></div><div id="26"><a href="/secure/links/Apply.aspx?sm=26"><div><span class='navbar-text'>Research Management System</span></div></a></div><div id="27"><a href="/secure/links/Student11.aspx?sm=27"><div><span class='navbar-text'>Apply for Graduation and Clearance</span></div></a></div><div id="28"><a href="/secure/links/Apply111111111111111.aspx?sm=28"><div><span class='navbar-text'>Apply for Hostel</span></div></a></div><div id="29"><a href="/secure/links/Kusoma LMS1.aspx?sm=29"><div><span class='navbar-text'>Kusoma LMS</span></div></a></div><div id="30"><a href="/secure/links/Student1111111111111111111111111111111.aspx?sm=30"><div><span class='navbar-text'>Student Mentorship</span></div></a></div></div><div id="Finances"><a href="" title=""></a><i class='fa fa-th-large'></i> Finances</div><div id="__Finances"><div id="31"><a href="/secure/links/Bursary1.aspx?sm=31"><div><span class='navbar-text'>Bursary Application</span></div></a></div></div><div id="ICT Support"><a href="" title=""></a><i class='fa fa-th-large'></i> ICT Support</div><div id="__ICT Support"><div id="32"><a href="/secure/links/SubmitTicket.aspx?sm=32"><div><span class='navbar-text'>Submit Ticket</span></div></a></div><div id="33"><a href="/secure/links/SubmitTicket1.aspx?sm=33"><div><span class='navbar-text'>View Ticket</span></div></a></div><div id="34"><a href="/secure/links/Knowledge.aspx?sm=34"><div><span class='navbar-text'>Knowledge Base</span></div></a></div></div><div id="Library Services"><a href="" title=""></a><i class='fa fa-th-large'></i> Library Services</div><div id="__Library Services"><div id="35"><a href="/secure/links/Library.aspx?sm=35"><div><span class='navbar-text'>Library Website</span></div></a></div><div id="36"><a href="/secure/links/Library1.aspx?sm=36"><div><span class='navbar-text'>Library Catalogue</span></div></a></div><div id="37"><a href="/secure/links/Institutional.aspx?sm=37"><div><span class='navbar-text'>Institutional Repository</span></div></a></div><div id="38"><a href="/secure/links/Journals.aspx?sm=38"><div><span class='navbar-text'>Journals</span></div></a></div><div id="39"><a href="/secure/links/MyLoft.aspx?sm=39"><div><span class='navbar-text'>MyLoft</span></div></a></div></div><div id="Corporate Email"><a href="" title=""></a><i class='fa fa-th-large'></i> Corporate Email</div><div id="__Corporate Email"><div id="40"><a href="/secure/links/Email.aspx?sm=40"><div><span class='navbar-text'>Email Retrieval</span></div></a></div><div id="41"><a href="/secure/links/Corporate1.aspx?sm=41"><div><span class='navbar-text'>Student Corporate Email</span></div></a></div></div></div><script type="text/javascript" src="/WebResource.axd?d=6a0Duidud2oR07euNyByij9sNZvEtSG7A7V0r-S042gPIDUDKjXUcSAYNjH_UsBs1i5mhLiIFdWhEq0dFhTPXWk5JjgRaLgwTFQXI5WzAK6Lw66xIdSxJVRcYVuJrI8gRs6MPIlC3O4ETSGww4JfKaEWU3g1&t=638116255920000000"></script>
+
+<!--   obout inc SlideMenu version 3.3.1.5  http://www.obout.com   -->
+
+
+
+</div>
+
+                                            </div>
+                                        </div>
+
+                                        <div id="_ctl0_tdBody" class="col-sm-8 col-xs-12 col-md-8 col-height col-top  contentpart pad">
+
+                                            <a name="mainContent" id="mainContent"></a>
+                                            <div id="_ctl0_Table1">
+
+                                                <div id="_ctl0_Title1_TitlePanel" class="panel panel-default Top_content_header" style="width:100%;">
+	
+
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <span id="_ctl0_Title1_lblPageTitle" class="control-label">Online Registration</span>
+        </h3>
+        <p>
+            <span id="_ctl0_Title1_lblContentText" class="control-label">Welcome to Online Registration.  Please <br />select your term below and check your registration status.</span></p>
+    </div>
+
+</div>
+
+
+                                                <div id="cmcContent">
+                                                    <contenttemplate>
+                                                        
+    <div class="navbar-default panel-heading">
+        <div class="row">
+            <div class="col-sm-6 left">
+
+                <input type="image" name="_ctl0:PlaceHolderMain:btnRefresh" id="_ctl0_PlaceHolderMain_btnRefresh" class="refresh" src="/Public/global/images/reg/icon_reg_refresh.gif" align="middle" border="0" onclick="if (typeof(Page_ClientValidate) == &#39;function&#39;) Page_ClientValidate(); ;" language="javascript" />
+                <a onclick="if (typeof(Page_ClientValidate) == &#39;function&#39;) Page_ClientValidate(); ;" id="_ctl0_PlaceHolderMain_lbRefresh" class=" navbar-text" href="javascript:__doPostBack(&#39;_ctl0$PlaceHolderMain$lbRefresh&#39;,&#39;&#39;)">Refresh Page</a>
+            </div>
+            <div class="col-sm-6 right">
+                <a id="_ctl0_PlaceHolderMain_hlTopViewTutorials" class=" navbar-text" onclick="return doHelp(&#39;https://help.campusmanagement.com/CNSi/PRT/5.1/Student/Content/Online_Registration.htm&#39;);" href="#">View Registration Tutorial</a>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    
+ 
+      
+ 
+<div class="row">
+    <div id="_ctl0_PlaceHolderMain_pnlGreetNoTermStatus" style="width:100%;">
+	
+        <p class="col-lg-12 help-block">
+            <img id="_ctl0_PlaceHolderMain_imgGreetNoTermStatus" src="/Public/global/images/reg/icon_reg_stopsign.gif" alt="" border="0" />
+            <span id="_ctl0_PlaceHolderMain_lblGreetNoTermStatus1" class="text-danger">You are currently on registration hold. Please contact Office of Registrar to resolve the hold.</span>
+        </p>
+    
+</div>
+     
+      
+   </div>
+    <div id="_ctl0_PlaceHolderMain_pnlShowVisibility" style="width:100%;">
+	
+
+        
+
+        
+     
+        
+
+    
+</div>
+
+    <div class="row">
+        <div class="col-sm-12 right ">
+            
+            
+        </div>
+    </div>
+    
+    
+
+    
+
+    
+    
+
+
+    
+
+
+
+    
+
+
+    
+    <div class="panel panel-default" style="visibility: hidden">
+        <div class="panel-body form-horizontal">
+            <div class="row panel-heading">
+                <div class="col-lg-12 zeropad Sub_heading">
+                </div>
+            </div>
+
+            <div class="col-lg-12  help-block">
+                <span id="_ctl0_PlaceHolderMain_lbl3Steps2" class="control-label">Learn how to Select Courses, Arrange Courses to make your schedule and Register.</span>
+            </div>
+        </div>
+    </div>
+
+    <input name="_ctl0:PlaceHolderMain:inpShowSched" type="hidden" id="_ctl0_PlaceHolderMain_inpShowSched" />
+    <input name="_ctl0:PlaceHolderMain:inpAdClassSchedId" type="hidden" id="_ctl0_PlaceHolderMain_inpAdClassSchedId" />
+    <input name="_ctl0:PlaceHolderMain:inpStartDate" type="hidden" id="_ctl0_PlaceHolderMain_inpStartDate" />
+    <input name="_ctl0:PlaceHolderMain:inpEndDate" type="hidden" id="_ctl0_PlaceHolderMain_inpEndDate" />
+
+
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog" id="divCal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <!--<h4 class="modal-title">Course Schedule Calendar</h4>-->
+                    <h4 class="modal-title Sub_heading">
+                        <span id="lblCourseTitle"></span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <iframe id="ifraCal" name="ifraCal" src="about:blank" frameborder="no" width="100%" onload="setSchedSize()" title=""></iframe>
+                    <div class="right">
+                        <button type="button" id="btnCancel" aria-label="Close" class="btn btn-cancel btn-sm" data-dismiss="modal">
+                            <span id="_ctl0_PlaceHolderMain_lblCancel">Closed</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+   <script>
+       $(document).ready(function () {
+           $("#_ctl0_PlaceHolderMain_ddlEnrollmentList").chosen({ disable_search: false });
+            $("#_ctl0_PlaceHolderMain_lstSelectedTerm").chosen({ disable_search: false });
+        });
+   </script>  
+
+                                                    </contenttemplate>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="_ctl0_tdRight" class="col-sm-2 col-xs-12 col-md-2   col-height col-top  contentright pad">
+                                            
+
+
+<div id="_ctl0_Links1_PageLinks">
+	
+    <div class="form-group center">
+       <i class="fa fa-print fa-2x" aria-hidden="true" title="Print"></i>
+        <a class="btn btn-primary btn-ok btn-xs" id="Cmchyperlink2" href="javascript:window.print();">
+            <span id="_ctl0_Links1_CMClblPrintPage" class="control-label">Print Page</span>
+        </a>
+       
+       
+        
+    </div>
+    
+    
+    <div id="_ctl0_Links1_pnlContactInfo">
+		
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <span id="_ctl0_Links1_ContactLabel" class="control-label">Contact Info</span>
+                </h3>
+            </div>
+            <div class="panel-body Control_row">
+                <div class="tabcontent">
+                    
+                    <div id="_ctl0_Links1_pnlContactName">
+			
+                        <div class="form-group">
+                            <span id="_ctl0_Links1_lblContactName" class="control-label"></span>
+                        </div>
+                    
+		</div>
+                    
+                    <div id="_ctl0_Links1_pnlContactPhone">
+			
+                        <div class="form-group">
+                            <span id="_ctl0_Links1_lblContactPhone" class="control-label">Tel:</span>
+                        </div>
+                    
+		</div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+    
+	</div>
+
+</div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="frame" style="float: left; vertical-align: top; width: 100%;"></div>
+                        </div>
+                        
+                        <div>
+                            <img id="_ctl0_imgSpacer" alt="" border="0" style="height:0px;width:100%;" />
+                        </div>
+                    </div>
+                </div>
+
+                <div id="footer">
+                    
+<div class="container-fluid navbar-default">
+    <div class="col-lg-4">
+        <p class="navbar-text  left">
+            <span><span class="control-label" style="width:100%;">Version: 5.1.1.31</span></span>
+    </div>
+    <div class="col-lg-8 right">
+        <div id="_ctl0_Footer1_FooterLinks">
+	
+            <span class="navbar-text">
+                <a id="_ctl0_Footer1_btnHomeFooter" class="navbar-text" href="javascript:__doPostBack(&#39;_ctl0$Footer1$btnHomeFooter&#39;,&#39;&#39;)">Home</a>
+            </span>
+            <span class="navbar-text">|</span>
+            <span class="navbar-text">
+                <a id="_ctl0_Footer1_lbtnLogout" class="navbar-text" href="javascript:__doPostBack(&#39;_ctl0$Footer1$lbtnLogout&#39;,&#39;&#39;)">Logout</a></span>
+            <span class="navbar-text">|</span>
+            <span class="navbar-text">
+                <a onclick="javascript:window.open(&#39;https://help.campusmanagement.com/CNSi/PRT/5.1/Student/&#39;);" id="_ctl0_Footer1_lbHelp" class="navbar-text" href="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;_ctl0:Footer1:lbHelp&quot;, &quot;&quot;, false, &quot;&quot;, &quot;javascript://&quot;, false, true))">Help</a>
+
+            </span>
+            <span class="navbar-text">|</span>
+            <span class="navbar-text">
+
+                <a id="_ctl0_Footer1_btnSiteIndex" class="navbar-text" href="javascript:__doPostBack(&#39;_ctl0$Footer1$btnSiteIndex&#39;,&#39;&#39;)">Site Index</a>
+            </span>
+            <span class="navbar-text">|</span>
+            <span>
+                <a id="_ctl0_Footer1_lbCampusContacts" class="navbar-text" href="javascript:__doPostBack(&#39;_ctl0$Footer1$lbCampusContacts&#39;,&#39;&#39;)">Campus Contacts</a>
+            </span>
+            <span class="navbar-text">|</span>
+            <span class="navbar-text">
+                <a id="_ctl0_Footer1_lbPrivacyPolicy" class="navbar-text" href="javascript:__doPostBack(&#39;_ctl0$Footer1$lbPrivacyPolicy&#39;,&#39;&#39;)">Privacy Policy</a>
+            </span>
+            <span class="navbar-text">
+                <span id="_ctl0_Footer1_lblSeparator" class="control-label">|</span></span>
+            <span class="navbar-text">
+                <a id="_ctl0_Footer1_btnFeedbackForm" class="navbar-text" href="javascript:__doPostBack(&#39;_ctl0$Footer1$btnFeedbackForm&#39;,&#39;&#39;)">Feedback Form</a>
+            </span>
+        
+</div>
+        
+    </div>
+    <script type="text/javascript" charset="utf-8">
+        /*
+        ".example" is a css class name used by all datagrids.
+        On "$(document).ready(function () {}) we set the values of 
+        predefind properties which refer to juery.dataTables.js file 
+        */
+        $(document).ready(function () {
+            $('.day-event').css("height", 'auto');
+            $(".example").dataTable({
+
+                "oLanguage":
+                {
+
+                    "sProcessing": "Processing...",
+                    "sSearch": "Search",
+                    "sEmptyTable": "No data available in table",
+                    "sInfo": "Showing _START_ to _END_ of _TOTAL_ entries",
+                    "sLengthMenu": "Show &nbsp;  _MENU_  &nbsp; entries",
+                    "sInfoEmpty": "Showing 0 to 0 of 0 entries",
+                    "sLoadingRecords": "Loading...",
+                    "sZeroRecords": "No matching records found",
+                    "sInfoFiltered": "(filtered from _MAX_ total entries)",
+                    "oPaginate": {
+                        "sFirst": "First",
+                        "sLast": "Last",
+                        "sNext": "Next",
+                        "sPrevious": "Previous "
+                    }
+                },
+                "lengthMenu": [[-1,10,25,50,100 ], [ "ALL",10,25,50,100]],
+                "dom": '<"top"lfip<"clear">>rt<"bottom"lfip<"clear">>'
+
+            });
+            $(".example").dataTable().columnFilter();
+        });
+
+        //Sorting Account Information Grid by Date only.
+        $(document).ready(function () {
+            $('.day-event').css("height", 'auto');
+            $(".accountinfosort").dataTable({
+                "order": [[0, "desc"]],
+                "columnDefs": [
+                    { "orderable": false, "targets": [2, 3, 4, 5] }
+                ],
+                "oLanguage":
+                {
+
+                    "sProcessing": "Processing...",
+                    "sSearch": "Search",
+                    "sEmptyTable": "No data available in table",
+                    "sInfo": "Showing _START_ to _END_ of _TOTAL_ entries",
+                    "sLengthMenu": "Show &nbsp;  _MENU_  &nbsp; entries",
+                    "sInfoEmpty": "Showing 0 to 0 of 0 entries",
+                    "sLoadingRecords": "Loading...",
+                    "sZeroRecords": "No matching records found",
+                    "sInfoFiltered": "(filtered from _MAX_ total entries)",
+                    "oPaginate": {
+                        "sFirst": "First",
+                        "sLast": "Last",
+                        "sNext": "Next",
+                        "sPrevious": "Previous "
+                    }
+                },
+                "lengthMenu": [[-1,10,25,50,100 ], [ "ALL",10,25,50,100]],
+                "dom": '<"top"lfip<"clear">>rt<"bottom"lfip<"clear">>'
+            });
+        });
+
+        $(document).ready(function () {
+            $('.day-event').css("height", 'auto');
+            $(".pendingchargessort").dataTable({
+                "order": [[0, "asc"]],
+                "columnDefs": [
+                    { "orderable": false, "targets": [1, 2, 3, 4] }
+                ],
+                "oLanguage":
+                {
+
+                    "sProcessing": "Processing...",
+                    "sSearch": "Search",
+                    "sEmptyTable": "No data available in table",
+                    "sInfo": "Showing _START_ to _END_ of _TOTAL_ entries",
+                    "sLengthMenu": "Show &nbsp;  _MENU_  &nbsp; entries",
+                    "sInfoEmpty": "Showing 0 to 0 of 0 entries",
+                    "sLoadingRecords": "Loading...",
+                    "sZeroRecords": "No matching records found",
+                    "sInfoFiltered": "(filtered from _MAX_ total entries)",
+                    "oPaginate": {
+                        "sFirst": "First",
+                        "sLast": "Last",
+                        "sNext": "Next",
+                        "sPrevious": "Previous "
+                    }
+                },
+                "lengthMenu": [[-1,10,25,50,100 ], [ "ALL",10,25,50,100]],
+                "dom": '<"top"lfip<"clear">>rt<"bottom"lfip<"clear">>'
+            });
+        });
+    </script>
+</div>
+
+                </div>
+            
+<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="64A594FC" />
+<input type="hidden" name="__PREVIOUSPAGE" id="__PREVIOUSPAGE" value="zFI1H_pRfYH3rh3rHuThL417v9kNzjxgeBzweaD7v3JUxvFGiEkJb86qwbYCRBVYSxFoJ5kWsqCWinNz9HBRjrR9QNBC4Gubh4Po3LRpFge0ijZP0" />
+<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="rIyn+d41LngEwI8GOD6BlwCoPlolkGZXlt6aw+rFXpFWPXLlOSDzT3lWRkWAugCQKCryJPDAwYHSSeB/z8XoKaOxCcCgSOEQqf20IZ9utseIrafknMz8eFVstVpNnWMtSmUUnQHN1jgKv9XufDGU6Bz6z6tPO/psPGQ2PJA+uhEcpKZm31h9Bg0jr37DRrOh1eZZ68voUeE1xJrpEWQXsYj6TdcHxLGcUyvvMAKnY24XtnAME3WcsHlm48P3MxQCA6TdJgbglZNQcYXNMnCSW2MSte2f0KtirOLyjryNQal+H9nte+z21qOgwa8vdmEzzoYCSf4GrlmzWNsHnaPkqLz/poXBx8Z++w8x2eXg9mxo1l3yTErecGSMnOZSW7+Vicx4WM1Uo19ZzzgNX5NLTd5L2ghjN3dJY4Q+uPdkX+2rmGLg" />
+
+<script type="text/javascript">
+<!--
+try {var oboutSMoSM = new SlideMenu("oSM", "3", 15, false, "panel-heading left_menu navbar-text", "left_menu_hover navbar-text", "left_menu_selected navbar-text", "submenu", "submenu_hover", "submenu_selected", "panel-group", "panel-collapse collapse", null, null, null, null, null, null, null, null, -1, 0, null, false);} catch(e) {}function f_oSM() {var i, j, o, oc, ob;o = document.getElementById("oSM");for(i = 0; i < o.childNodes.length; i++) {oc = o.childNodes[i];if(oc.id.substring(0, 2) != "__") {oc.onmouseover = function() {oboutSMoSM.mouseOverOutSelected(this.id, 1, true);};oc.onmouseout = function() {oboutSMoSM.mouseOverOutSelected(this.id, 0, true);};if(oc.onclick) {oboutSMoSM.addFunction(oc.onclick, oc.id);oc.onclick = function() {oboutSMoSM.parentClick(this.id); oboutSMoSM.getFunction(this.id)();};oc.firstChild.onclick = function() {oboutSMoSM.parentClick(this.parentElement.id); oboutSMoSM.getFunction(this.parentElement.id)();};}else {oc.onclick = function() {oboutSMoSM.parentClick(this.id);};oc.firstChild.onclick = function() {oboutSMoSM.parentClick(this.parentElement.id);};}} else for(j = 0; j < oc.childNodes.length; j++) {ob = oc.childNodes[j];ob.onmouseover = function() {oboutSMoSM.mouseOverOutSelected(this.id, 4, true);};ob.onmouseout = function() {oboutSMoSM.mouseOverOutSelected(this.id, 3, true);};if(ob.onclick) {oboutSMoSM.addFunction(ob.onclick, ob.id);ob.onclick = function() {oboutSMoSM.saveHidden(this.id); oboutSMoSM.getFunction(this.id)();};}else ob.onclick = function() {oboutSMoSM.saveHidden(this.id);};}}oboutSMoSM.buildMenu();}f_oSM();oboutSMoSM.collapseAll();// -->
+</script>
+</form>
+            <!-- Return to Top -->
+            <a href="#wrapper" id="return-to-top"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+        </div>
+    </div>
+</body>
+</html>
+
